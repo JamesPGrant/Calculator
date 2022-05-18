@@ -55,10 +55,10 @@ console.log(operators(4, '!'))
 
 function  displayCalc(args){
     //if there is no operator button click = displayValue
-    if(operator === ``){
-    displayValue = args
-    calcInput.textContent += `${args}`
-    console.log(displayValue)
+if(operator === `` || operator === '.'){
+        displayValue = args
+        calcInput.textContent += `${args}`
+        console.log(displayValue)
     }
     //If there is an operator button click = displayValue2
     if(operator === '+' || operator === '-'|| operator === '*'||operator === '/'|| operator === '!'){
@@ -87,6 +87,9 @@ operatorArray.forEach(operatorBtn => operatorBtn.addEventListener('click', ()=>{
     } else if (operatorBtn.id === '!'){
         calcInput.textContent += `!`
         operator = '!' 
+    } else if (operatorBtn.value === '.'){
+        calcInput.textContent += `.`
+        operator = '.' 
     }
 }))
 
@@ -96,7 +99,10 @@ displayOperator()
 
 function clear(){
     clrBtn.addEventListener('click', () =>{
-        window.location.reload();
+        calcInput.textContent = ``
+        displayValue = 0;
+        displayValue2 = 0;
+        operator = ``
 })
 }
 
@@ -104,9 +110,14 @@ clear();
 
 function equals(){
 equalsBtn.addEventListener('click', ()=>{
-    console.log(operators(displayValue, operator, displayValue2))
-    displayValue = operators(displayValue, operator, displayValue2)
-    calcInput.textContent = `${displayValue}`
+    if(operator !== ``){
+        console.log(operators(displayValue, operator, displayValue2))
+        displayValue = operators(displayValue, operator, displayValue2)
+        calcInput.textContent = `${displayValue}`
+    }
+    if(operator === ``){
+        calcInput.textContent =`${displayValue}`
+    }
     
     
 })
