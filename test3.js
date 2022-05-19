@@ -6,6 +6,7 @@ const operatorArray = Array.from(operatorBtn)
 const inputScrn = document.querySelector(".calcScreen")
 const numberArray = Array.from(numBtn)
 const calcInput = document.createElement('p');
+const deleteNum = document.querySelector(`.backspace`)
 calcInput.classList.add('calcInput');
 inputScrn.appendChild(calcInput);
 
@@ -67,6 +68,9 @@ if(operator === `` || operator === '.'){
         calcInput.textContent += `${args}`
         console.log(displayValue2)
     }
+    if(displayValue.length === 25|| displayValue2.length ===25){
+        calcInput.textContent = '1'
+    }
 }
 
 function displayOperator(){
@@ -125,11 +129,33 @@ equalsBtn.addEventListener('click', ()=>{
         displayValue2 = ``;
         operator = ``;
     }
-    
-    
+   if(isNaN(result)){
+        calcInput.textContent = `${displayValue3}`
+        displayValue2 = ``;
+        operator = ``;
+   }
+   if(result === undefined){
+        calcInput.textContent = ``
+        displayValue = ``;
+        displayValue2 = ``;
+        operator = ``;
+   }
 })
 }
 equals()
 
+function backspace(){
+    deleteNum.addEventListener('click', () =>{
+        let len = document.querySelector(`.calcInput`).textContent.length -1;
+        calcInput.textContent  = `${len}`
+        console.log(len)
+    
+    })
+
+}
+backspace()
+
 /*maybe writing an if statement so that if there is an operator then a 
 value gets added to the second displayValue? */
+
+//-= args
