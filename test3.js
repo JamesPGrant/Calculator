@@ -10,13 +10,14 @@ calcInput.classList.add('calcInput');
 inputScrn.appendChild(calcInput);
 
 
-let displayValue = 0;
+let displayValue = ``;
 let operator = '';
-let displayValue2 =0;
+let displayValue2 = ``;
 
 const calculator ={
     add(a, b){
-        return a + b
+        value = parseInt(a + b);
+        return value
     },
     subtract(a, b){
         return a - b
@@ -56,14 +57,14 @@ console.log(operators(4, '!'))
 function  displayCalc(args){
     //if there is no operator button click = displayValue
 if(operator === `` || operator === '.'){
-        displayValue = args
+        displayValue += args
         calcInput.textContent += `${args}`
         console.log(displayValue)
     }
     //If there is an operator button click = displayValue2
     if(operator === '+' || operator === '-'|| operator === '*'||operator === '/'|| operator === '!'){
-        displayValue2 = args
-        calcInput.textContent += `${displayValue2}`
+        displayValue2 += args
+        calcInput.textContent += `${args}`
         console.log(displayValue2)
     }
 }
@@ -80,7 +81,6 @@ operatorArray.forEach(operatorBtn => operatorBtn.addEventListener('click', ()=>{
     } else if(operatorBtn.id === '*'){
         calcInput.innerHTML += `*`
         operator = `*`
-        displayValue2 += 1;
     } else if (operatorBtn.id === '/'){
         calcInput.textContent += `/`
         operator = '/' 
@@ -91,7 +91,12 @@ operatorArray.forEach(operatorBtn => operatorBtn.addEventListener('click', ()=>{
         calcInput.textContent += `.`
         operator = '.' 
     }
+    if(displayValue2 !== `` && operator !== ``){
+        result = equals(operators(displayValue3, operator, displayValue4))
+        calcInput.textContent = `${result}`
+    }
 }))
+    
 
 }
 displayOperator()
@@ -100,8 +105,8 @@ displayOperator()
 function clear(){
     clrBtn.addEventListener('click', () =>{
         calcInput.textContent = ``
-        displayValue = 0;
-        displayValue2 = 0;
+        displayValue = ``;
+        displayValue2 = ``;
         operator = ``
 })
 }
@@ -112,8 +117,13 @@ function equals(){
 equalsBtn.addEventListener('click', ()=>{
     if(operator !== ``){
         console.log(operators(displayValue, operator, displayValue2))
-        displayValue = operators(displayValue, operator, displayValue2)
-        calcInput.textContent = `${displayValue}`
+        displayValue3 = parseInt(displayValue)
+        displayValue4 = parseInt(displayValue2)
+        result = operators(displayValue3, operator, displayValue4)
+        //displayValue = parseInt(operators(displayValue, operator, displayValue2))
+        calcInput.textContent = `${result}`
+        displayValue = result;
+        displayValue2 = ``;
     }
     if(operator === ``){
         calcInput.textContent =`${displayValue}`
@@ -125,4 +135,4 @@ equalsBtn.addEventListener('click', ()=>{
 equals()
 
 /*maybe writing an if statement so that if there is an operator then a 
-value gets added to the second displayValue? does that sound like a plan*/
+value gets added to the second displayValue? */
