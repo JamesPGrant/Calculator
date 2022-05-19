@@ -87,13 +87,6 @@ operatorArray.forEach(operatorBtn => operatorBtn.addEventListener('click', ()=>{
     } else if (operatorBtn.id === '!'){
         calcInput.textContent += `!`
         operator = '!' 
-    } else if (operatorBtn.value === '.'){
-        calcInput.textContent += `.`
-        operator = '.' 
-    }
-    if(displayValue2 !== `` && operator !== ``){
-        result = equals(operators(displayValue3, operator, displayValue4))
-        calcInput.textContent = `${result}`
     }
 }))
     
@@ -116,17 +109,21 @@ clear();
 function equals(){
 equalsBtn.addEventListener('click', ()=>{
     if(operator !== ``){
-        console.log(operators(displayValue, operator, displayValue2))
+        //console.log(operators(displayValue, operator, displayValue2))
         displayValue3 = parseInt(displayValue)
         displayValue4 = parseInt(displayValue2)
         result = operators(displayValue3, operator, displayValue4)
         //displayValue = parseInt(operators(displayValue, operator, displayValue2))
-        calcInput.textContent = `${result}`
+        calcInput.textContent = `${Math.round((result + Number.EPSILON) * 10)/10}`
         displayValue = result;
         displayValue2 = ``;
     }
-    if(operator === ``){
-        calcInput.textContent =`${displayValue}`
+    if(operator ===`/`&& displayValue4 === 0){
+        alert('no :)')
+        calcInput.textContent = ``
+        displayValue = ``;
+        displayValue2 = ``;
+        operator = ``;
     }
     
     

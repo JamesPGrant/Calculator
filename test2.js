@@ -79,7 +79,7 @@ function displayOperator(){
         } else if (operatorBtn.id === '!'){
             calcInput.textContent += `!`
             operator += '!' 
-            
+ 
             
             
         }
