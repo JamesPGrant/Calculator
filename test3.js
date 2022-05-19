@@ -35,8 +35,8 @@ const calculator ={
         for (i = a; i >0; i--){
             array.push(i)
         } 
-    const factorialTotal = array.reduce((acc, cur) => acc * cur, total)
-    return factorialTotal
+        const factorialTotal = array.reduce((acc, cur) => acc * cur, total)
+        return factorialTotal
     }
 }
 
@@ -57,7 +57,7 @@ console.log(operators(4, '!'))
 
 function  displayCalc(args){
     //if there is no operator button click = displayValue
-if(operator === `` || operator === '.'){
+    if(operator === `` || operator === '.'){
         displayValue += args
         calcInput.textContent += `${args}`
         console.log(displayValue)
@@ -73,29 +73,49 @@ if(operator === `` || operator === '.'){
     }
 }
 
-function displayOperator(){
-operatorArray.forEach(operatorBtn => operatorBtn.addEventListener('click', ()=>{
-    if(operatorBtn.id === '+'){
-        calcInput.textContent += '+'
-        operator = '+' 
-        console.log(operator)
-    } else if(operatorBtn.id === '-'){
-        calcInput.textContent += `-`
-        operator = `-`
-    } else if(operatorBtn.id === '*'){
-        calcInput.innerHTML += `*`
-        operator = `*`
-    } else if (operatorBtn.id === '/'){
-        calcInput.textContent += `/`
-        operator = '/' 
-    } else if (operatorBtn.id === '!'){
-        calcInput.textContent += `!`
-        operator = '!' 
-    }
-}))
-    
+function displayOperator(e){
+    let newOperator = ``
+    operatorArray.forEach(operatorBtn => operatorBtn.addEventListener('click', ()=>{
+        if(operatorBtn.id === '+'){
+            calcInput.textContent += '+'
+            operator = '+' 
+            newOperator = operator
+            console.log(operator)
+        } else if(operatorBtn.id === '-'){
+            calcInput.textContent += `-`
+            operator = `-`
+            newOperator = operator
+        } else if(operatorBtn.id === '*'){
+            calcInput.innerHTML += `*`
+            operator = `*`
+            newOperator = operator
+        } else if (operatorBtn.id === '/'){
+            calcInput.textContent += `/`
+            operator = '/' 
+            newOperator = operator
+        } else if (operatorBtn.id === '!'){
+            calcInput.textContent += `!`
+            operator = '!' 
+            newOperator = operator
+        }
+        if(displayValue!== `` && displayValue2 !== `` && operator !== ``){
+            displayValue3 = parseInt(displayValue)
+            displayValue4 = parseInt(displayValue2)
+            result = operators(displayValue3, operator, displayValue4)
+            displayValue2 = ``
+            operator = ``
+            calcInput.textContent = `${result}`
+            displayValue = result;
+        }
+        //if there is no first value assume displayValue = 0
+        if(displayValue == `` && operator !== `` || displayValue == `` && operator !== `` && displayValue2 !== ``){
+            displayValue = `0`
+        }
 
-}
+    }))
+} 
+ 
+
 displayOperator()
 
 
@@ -111,42 +131,47 @@ function clear(){
 clear();
 
 function equals(){
-equalsBtn.addEventListener('click', ()=>{
-    if(operator !== ``){
-        //console.log(operators(displayValue, operator, displayValue2))
-        displayValue3 = parseInt(displayValue)
-        displayValue4 = parseInt(displayValue2)
-        result = operators(displayValue3, operator, displayValue4)
-        //displayValue = parseInt(operators(displayValue, operator, displayValue2))
-        calcInput.textContent = `${Math.round((result + Number.EPSILON) * 10)/10}`
-        displayValue = result;
-        displayValue2 = ``;
-    }
-    if(operator ===`/`&& displayValue4 === 0){
-        alert('no :)')
-        calcInput.textContent = ``
-        displayValue = ``;
-        displayValue2 = ``;
-        operator = ``;
-    }
-   if(isNaN(result)){
-        calcInput.textContent = `${displayValue3}`
-        displayValue2 = ``;
-        operator = ``;
-   }
-   if(result === undefined){
-        calcInput.textContent = ``
-        displayValue = ``;
-        displayValue2 = ``;
-        operator = ``;
-   }
-})
+    equalsBtn.addEventListener('click', ()=>{
+        if(operator !== ``){
+            //console.log(operators(displayValue, operator, displayValue2))
+            displayValue3 = parseInt(displayValue)
+            displayValue4 = parseInt(displayValue2)
+            result = operators(displayValue3, operator, displayValue4)
+            //displayValue = parseInt(operators(displayValue, operator, displayValue2))
+            calcInput.textContent = `${Math.round((result + Number.EPSILON) * 10)/10}`
+            displayValue = result;
+            displayValue2 = ``;
+        }
+        if(operator ===`/`&& displayValue4 === 0){
+            alert('no :)')
+            calcInput.textContent = ``
+            displayValue = ``;
+            displayValue2 = ``;
+            operator = ``;
+        }
+        if(isNaN(result)){
+            calcInput.textContent = `${displayValue3}`
+            displayValue2 = ``;
+            operator = ``;
+        }
+        if(result === undefined){
+            calcInput.textContent = ``
+            displayValue = ``;
+            displayValue2 = ``;
+            operator = ``;
+        }
+
+    })
 }
 equals()
 
 function backspace(){
     deleteNum.addEventListener('click', () =>{
-        let len = document.querySelector(`.calcInput`).textContent.length -1;
+        //len is equal to the length of the screen text content
+        let len = calcInput.textContent.slice(0,-1)
+        displayValue = len;
+        displayValue2 = len;
+        operator = len;
         calcInput.textContent  = `${len}`
         console.log(len)
     
@@ -159,3 +184,4 @@ backspace()
 value gets added to the second displayValue? */
 
 //-= args
+//slice
